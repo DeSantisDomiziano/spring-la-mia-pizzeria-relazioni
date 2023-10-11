@@ -60,6 +60,10 @@ public class Deal {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id)  {
+		this.id = id;
+	}
 
 
 	public LocalDate getStartDate() {
@@ -95,7 +99,7 @@ public class Deal {
 	@Override
 	public String toString() {
 		return "Deal [getStartDate()=" + getStartDate() + ", getEndDate()=" + getEndDate() + ", getName()=" + getName()
-				+ "]";
+				+ "]" + getId();
 	}
 	
 }

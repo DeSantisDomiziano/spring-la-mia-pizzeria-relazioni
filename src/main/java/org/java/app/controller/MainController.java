@@ -3,6 +3,7 @@ package org.java.app.controller;
 
 import java.util.List;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.java.app.pojo.Deal;
 import org.java.app.pojo.Pizza;
 import org.java.app.serve.DealService;
@@ -138,9 +139,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/edit/deal/{id}")
-	public String getCreateDeal(Model model) {
+	public String getCreateDeal(Model model, @PathVariable int id
+			) {
 		
-		model.addAttribute("deal", new Deal());
+		model.addAttribute("deal", dealService.findById(id));
 		
 		
 		return "edit_deal";
@@ -158,12 +160,13 @@ public class MainController {
 			return "edit_deal";
 		}
 		
-		Deal idPizza = dealService.findById(id);
-		Pizza pizza = idPizza.getPizza();
-	
+		int idPizza = dealService.findById(id).getPizza().getId();
+		Pizza pizza = pizzaService.findById(idPizza);
+		System.out.println(pizza);
+		
 		deal.setPizza(pizza);
 		dealService.save(deal);
 		
-		return "redirect:/pizza/" + id;
+		return "redirect:/pizza/" + idPizza;
 	}
 }
