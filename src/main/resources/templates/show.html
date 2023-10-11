@@ -18,6 +18,12 @@
 			[[${pizza.getOverview()}]]
 		</small>
 		</p>
-	</ul>
+		<ul th:if="${pizza.getDeal().size()} > 0">
+			<li th:each="deal : ${pizza.getDeal()}"}>
+				inizio: [[${deal.getStartDate()}]] ~ fine: [[${deal.getEndDate()}]] <br/>
+				nome offerta: [[${deal.getName()}]]
+			<hr>
+			</li>
+		</ul>
 </body>
 </html>
