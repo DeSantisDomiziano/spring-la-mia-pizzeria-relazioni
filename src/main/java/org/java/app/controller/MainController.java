@@ -2,7 +2,10 @@ package org.java.app.controller;
 
 
 import java.util.List;
+
+import org.java.app.pojo.Deal;
 import org.java.app.pojo.Pizza;
+import org.java.app.serve.DealService;
 import org.java.app.serve.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,9 @@ public class MainController {
 	
 	@Autowired
 	private PizzaService pizzaService;
+	
+	@Autowired
+	private DealService dealService;
 	
 	@GetMapping("/pizze")
 	public String getIndex(Model model, 
@@ -97,5 +103,67 @@ public class MainController {
 	public String delete(@PathVariable int id) {
 		pizzaService.deleteById(id);
 		return "redirect:/pizze";
+	}
+	
+	/*############################  DEAL  ########################### */
+	
+	@GetMapping("/create/deal/{pizza_id}")
+	public String deal(
+			@PathVariable("pizza_id") int id, Model model
+			) {
+		
+		Pizza pizza = pizzaService.findById(id);
+		Deal deal = new Deal();
+		model.addAttribute("pizza", pizza);
+		model.addAttribute("deal", deal);
+			
+		return "create_deal";
+		
+	}
+	
+	@PostMapping("/create/deal/{pizza_id}")
+	public String storeDeal(@Valid @ModelAttribute Deal deal,
+			BindingResult bindingResult,
+			@PathVariable("pizza_id") int id,
+			Model model
+	) {
+		
+		Pizza pizza = pizzaService.findById(id);
+		deal.setPizza(pizza);
+		
+		dealService.save(deal);
+		
+		return "redirect:/pizza/" + id;
+		
+	}
+	
+	@GetMapping("/edit/deal/{id}")
+	public String getCreateDeal(Model model) {
+		
+		model.addAttribute("deal", new Deal());
+		
+		
+		return "edit_deal";
+	}
+	
+	@PostMapping("/edit/deal/{id}")
+	public String storeDeal(@Valid @ModelAttribute Deal deal,
+			BindingResult bindingResult,
+			@PathVariable int id
+							) {
+		
+		if(bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(System.out::println);
+			
+			return "edit_deal";
+		}
+		
+		Deal idPizza = dealService.findById(id);
+		Pizza pizza = idPizza.getPizza();
+	
+		deal.setPizza(pizza);
+		dealService.save(deal);
+		
+		return "redirect:/pizza/" + id;
 	}
 }

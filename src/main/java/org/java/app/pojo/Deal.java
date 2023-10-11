@@ -1,6 +1,8 @@
 package org.java.app.pojo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Deal {
@@ -18,10 +22,11 @@ public class Deal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(nullable = false)
+	@NotNull(message = "La data non può essere nulla")
 	private LocalDate startDate;
 	
-	@Column(nullable = false)
+	@NotNull(message = "La data non può essere nulla")
+    @Future(message = "La data deve essere nel futuro")
 	private LocalDate endDate;
 	
 	@Column(length = 60, nullable = false)
@@ -51,6 +56,10 @@ public class Deal {
 		setName(name);
 		setPizza(pizza);
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 
 	public LocalDate getStartDate() {
@@ -75,6 +84,11 @@ public class Deal {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String dateFormatter(LocalDate formatDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);
+        return  formatDate.format(formatter);
 	}
 
 
