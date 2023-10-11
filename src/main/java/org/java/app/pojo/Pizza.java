@@ -42,7 +42,7 @@ public class Pizza {
     @Max(value = 100, message = "Il valore deve essere minore o uguale a 100")
 	private float price;
 	
-	@OneToMany(mappedBy = "deal")
+	@OneToMany(mappedBy = "pizza")
 	private List<Deal> deal;
 	
 	public List<Deal> getDeal() {
