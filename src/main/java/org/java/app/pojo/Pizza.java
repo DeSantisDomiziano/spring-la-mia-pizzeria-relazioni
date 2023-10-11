@@ -1,5 +1,7 @@
 package org.java.app.pojo;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Column;
@@ -8,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -39,6 +42,17 @@ public class Pizza {
     @Max(value = 100, message = "Il valore deve essere minore o uguale a 100")
 	private float price;
 	
+	@OneToMany(mappedBy = "deal")
+	private List<Deal> deal;
+	
+	public List<Deal> getDeal() {
+		return deal;
+	}
+
+	public void setDeal(List<Deal> deal) {
+		this.deal = deal;
+	}
+
 	public Pizza() {}
 
 	public Pizza(String name, String overview, String picture, float price) {
