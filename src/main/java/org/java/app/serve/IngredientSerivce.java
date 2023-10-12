@@ -24,4 +24,8 @@ public class IngredientSerivce {
 		
 		return ingredientRepo.findById(id).get();
 	}
+	
+	public List<Ingredient> findByName(String name) {
+		return ingredientRepo.findByName(name);
+	}
 }
