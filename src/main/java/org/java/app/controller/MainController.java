@@ -2,8 +2,6 @@ package org.java.app.controller;
 
 
 import java.util.List;
-
-import org.hibernate.internal.build.AllowSysOut;
 import org.java.app.pojo.Deal;
 import org.java.app.pojo.Pizza;
 import org.java.app.serve.DealService;

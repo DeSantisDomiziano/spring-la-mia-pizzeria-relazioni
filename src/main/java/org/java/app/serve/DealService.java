@@ -20,6 +20,7 @@ public class DealService {
 		
 		return dealRepo.findAll();
 	}
+	
 	public Deal findById(int id) {
 		
 		return dealRepo.findById(id).get();
